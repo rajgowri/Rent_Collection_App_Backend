@@ -10,6 +10,7 @@ const hashFunction = async (pass) => {
 };
 
 //user registration model
+//user registration model
 router.post("/signup", async (req, res) => {
   try {
     let input = req.body;
@@ -20,20 +21,21 @@ router.post("/signup", async (req, res) => {
       input.password = hashedPassword;
       let newUser = new userModel(input);
       await newUser.save();
-      res.json({
+      return res.json({
         status: "success",
-        message: "successfully registerd user",
+        message: "successfully registered user",
       });
     }
-    res.json({
+    // User already exists, send error response
+    return res.status(400).json({
       status: "error",
-      message: "user already exist",
+      message: "user already exists",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       status: "error",
-      message: "somthing went wrong in user registration",
+      message: "something went wrong in user registration",
     });
   }
 });
