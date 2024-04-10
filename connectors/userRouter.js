@@ -41,7 +41,7 @@ router.post("/signup", async (req, res) => {
 //user signin
 router.post("/signin", async (req, res) => {
   try {
-    let input = req.body;
+    let input=req.body
     let inputPassword = input.password;
     let data = await userModel.findOne({ emailAddress: input.emailAddress });
     if (!data) {
@@ -69,6 +69,7 @@ router.post("/signin", async (req, res) => {
     return res.status(500).json({
       status: "error",
       message: "somthing went wrong in user signin",
+      error: error.message,
     });
   }
 });
