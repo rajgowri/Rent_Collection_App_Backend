@@ -10,7 +10,6 @@ const hashFunction = async (pass) => {
 };
 
 //user registration model
-//user registration model
 router.post("/signup", async (req, res) => {
   try {
     let input = req.body;
@@ -26,7 +25,6 @@ router.post("/signup", async (req, res) => {
         message: "successfully registered user",
       });
     }
-    // User already exists, send error response
     return res.status(400).json({
       status: "error",
       message: "user already exists",
@@ -36,6 +34,41 @@ router.post("/signup", async (req, res) => {
     return res.status(500).json({
       status: "error",
       message: "something went wrong in user registration",
+    });
+  }
+});
+
+//user signin
+router.post("/signin", async (req, res) => {
+  try {
+    let input = req.body;
+    let inputPassword = input.password;
+    let data = await userModel.findOne({ emailAddress: input.emailAddress });
+    if (!data) {
+      return res.json({
+        status: "error",
+        message: "no user found",
+      });
+    }
+    let dbPassword = data.password;
+    let match = await bcrypt.compare(inputPassword, dbPassword);
+    if (!match) {
+      return res.json({
+        status: "error",
+        message: "incorrect password",
+      });
+    } else {
+      return res.json({
+        status: "success",
+        message: "authentification successfull",
+        data: data,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      status: "error",
+      message: "somthing went wrong in user signin",
     });
   }
 });
