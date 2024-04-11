@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const shopModel = new mongoose.Schema({
+  shopId: {
+    type: String,
+    required: true,
+  },
   shopAddress: {
     type: String,
     required: true,
