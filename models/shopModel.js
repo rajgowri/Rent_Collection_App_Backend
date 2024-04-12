@@ -4,6 +4,7 @@ const shopModel = new mongoose.Schema({
   shopId: {
     type: String,
     required: true,
+    unique: true,
   },
   shopAddress: {
     type: String,

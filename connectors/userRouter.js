@@ -74,4 +74,64 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+//user changePassword
+router.post("/changePassword", async (req, res) => {
+  try {
+    let input = req.body;
+    let inputPassword = input.oldPassword;
+    let data = await userModel.findById(input.id);
+    if (!data) {
+      return res.json({
+        status: "error",
+        message: "no user found",
+      });
+    }
+    let dbPassword = data.password;
+    let match = await bcrypt.compare(inputPassword, dbPassword);
+    if (!match) {
+      return res.json({
+        status: "error",
+        message: "incorrect password",
+      });
+    } else {
+      data.password = input.newPassword;
+      await data.save();
+      return res.json({
+        status: "success",
+        message: "password updated successfully",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server error",
+    });
+  }
+});
+
+//change username and email id
+router.post("/changeEmail",async(req,res)=>{
+  try {
+    let input=req.body
+    let data=await userModel.findOne({emailAddress:input.emailAddress})
+    if(!data){
+      return res.json({
+        status:"error",
+        message:"no user found"
+      })
+    }
+
+  } catch (error) {
+    console.error(error)
+    return res.json({
+      status:'error',
+      message:"internal sever error"
+    })
+  }
+})
+
+
+
+
 module.exports = router;
