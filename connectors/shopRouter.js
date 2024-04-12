@@ -22,4 +22,21 @@ router.post("/add", async (req, res) => {
   }
 });
 
+//view all shops
+router.post("/viewall", async (req, res) => {
+  try {
+    let data = await shopModel.find();
+    return res.json({
+      status: "success",
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server error",
+    });
+  }
+});
+
 module.exports = router;

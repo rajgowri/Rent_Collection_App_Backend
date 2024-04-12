@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const userRouter = require("./connectors/userRouter");
 const shopRouter=require("./connectors/shopRouter")
+const vendorRouter=require("./connectors/vendorRouter")
 
 const app = express();
 
@@ -16,7 +17,7 @@ mongoose
     { useNewUrlParser: true }
   )
   .then(() => {
-    console.log("Connected successfully");
+    console.log("MonogDb Connected successfully...");
   })
   .catch((error) => {
     console.log(error);
@@ -24,6 +25,8 @@ mongoose
 
 app.use("/user", userRouter);
 app.use("/shop",shopRouter)
+app.use("/vendor", vendorRouter);
+
 
 app.listen(3001, () => {
   console.log("Server is running..");
