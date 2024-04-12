@@ -9,7 +9,7 @@ const hashFunction = async (pass) => {
   return bcrypt.hash(pass, salt);
 };
 
-//user registration model
+//user registration router
 router.post("/signup", async (req, res) => {
   try {
     let input = req.body;
@@ -38,7 +38,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-//user signin
+//user signin router
 router.post("/signin", async (req, res) => {
   try {
     let input = req.body;
@@ -111,27 +111,29 @@ router.post("/changePassword", async (req, res) => {
 });
 
 //change username and email id
-router.post("/changeEmail",async(req,res)=>{
+router.post("/changeEmail", async (req, res) => {
   try {
-    let input=req.body
-    let data=await userModel.findOne({emailAddress:input.emailAddress})
-    if(!data){
+    let input = req.body;
+    let data = await userModel.findById(input.id);
+    if (!data) {
       return res.json({
-        status:"error",
-        message:"no user found"
-      })
+        status: "error",
+        message: "no user found",
+      });
     }
-
-  } catch (error) {
-    console.error(error)
+    data.emailAddress = input.emailAddress;
+    await data.save();
     return res.json({
-      status:'error',
-      message:"internal sever error"
-    })
+      status: "success",
+      message: "successfully updated email address",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal sever error",
+    });
   }
-})
-
-
-
+});
 
 module.exports = router;
