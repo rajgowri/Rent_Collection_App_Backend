@@ -9,7 +9,7 @@ const hashFunction = async (pass) => {
   return bcrypt.hash(pass, salt);
 };
 
-//user registration router
+//user signup router
 router.post("/signup", async (req, res) => {
   try {
     let input = req.body;
@@ -132,6 +132,30 @@ router.post("/changeEmail", async (req, res) => {
     return res.json({
       status: "error",
       message: "internal sever error",
+    });
+  }
+});
+
+//view user details
+router.post("/viewProfile", async (req, res) => {
+  try {
+    let input=req.body
+    let data=await userModel.findById(input.id)
+    if(!data){
+      return res.json({
+        status:"error",
+        message:'no user data found'
+      })
+    }
+    return res.json({
+      status:"success",
+      data:data
+    })
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server error",
     });
   }
 });
