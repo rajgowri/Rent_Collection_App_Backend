@@ -7,6 +7,14 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     let input = req.body;
+    let shopId=input.shopId
+    let existingShop=await shopModel.findOne({shopId:shopId})
+    if(existingShop){
+      return res.json({
+        status:"error",
+        message:"shop id is alredy in use"
+      })
+    }
     let newShop = new shopModel(input);
     await newShop.save();
     return res.json({
