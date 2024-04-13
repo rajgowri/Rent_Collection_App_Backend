@@ -5,6 +5,7 @@ const cors = require("cors");
 const userRouter = require("./connectors/userRouter");
 const shopRouter=require("./connectors/shopRouter")
 const vendorRouter=require("./connectors/vendorRouter")
+const paymentRouter=require("./connectors/paymentRouter")
 
 const app = express();
 
@@ -26,6 +27,8 @@ mongoose
 app.use("/user", userRouter);
 app.use("/shop",shopRouter)
 app.use("/vendor", vendorRouter);
+app.use("/payment", paymentRouter);
+
 
 
 app.listen(3001, () => {
