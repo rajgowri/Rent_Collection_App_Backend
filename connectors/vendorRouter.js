@@ -1,6 +1,7 @@
 const express = require("express");
 const vendorModel = require("../models/vendorModel");
 const paymentModel = require("../models/paymentModel");
+const shopModel = require("../models/shopModel");
 
 const router = express.Router();
 
@@ -9,11 +10,19 @@ router.post("/add", async (req, res) => {
   try {
     let input = req.body;
     let refId = input.paymentReferenceId;
+    let shopId=input.shopId
+    let existShopId = await shopModel.findOne({ shopId :shopId});
+    if(!existShopId){
+      return res.json({
+        status:"error",
+        message:"shop Id Does not exists"
+      })
+    }
     let existRef = await paymentModel.findOne({ referenceId: refId });
     if (!existRef) {
       return res.json({
         status: "error",
-        message: "check your reference Id",
+        message: "check your payemnt reference Id",
       });
     }
     let newVendor = new vendorModel(input);
