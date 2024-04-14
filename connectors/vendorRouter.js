@@ -10,13 +10,13 @@ router.post("/add", async (req, res) => {
   try {
     let input = req.body;
     let refId = input.paymentReferenceId;
-    let shopId=input.shopId
-    let existShopId = await shopModel.findOne({ shopId :shopId});
-    if(!existShopId){
+    let shopId = input.shopId;
+    let existShopId = await shopModel.findOne({ shopId: shopId });
+    if (!existShopId) {
       return res.json({
-        status:"error",
-        message:"shop Id Does not exists"
-      })
+        status: "error",
+        message: "shop Id Does not exists",
+      });
     }
     let existRef = await paymentModel.findOne({ referenceId: refId });
     if (!existRef) {
@@ -39,4 +39,8 @@ router.post("/add", async (req, res) => {
     });
   }
 });
+
+
+//search vendor
+
 module.exports = router;
