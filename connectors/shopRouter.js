@@ -31,7 +31,7 @@ router.post("/add", async (req, res) => {
 });
 
 //view all shops
-router.post("/viewall", async (req, res) => {
+router.get("/viewall", async (req, res) => {
   try {
     let data = await shopModel.find();
     return res.json({

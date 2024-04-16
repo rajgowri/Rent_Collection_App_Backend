@@ -65,8 +65,9 @@ const vendorModel = new mongoose.Schema({
     required: true,
   },
   paymentReferenceId: {
-    type: String,
+    type: Number,
     required: true,
+    ref: "payments",
   },
   leaseStartDate: {
     type: Date,

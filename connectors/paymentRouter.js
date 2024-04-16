@@ -23,6 +23,22 @@ router.post("/add", async (req, res) => {
   }
 });
 
-
+//view all payment
+router.get("/viewall", async (req, res) => {
+  try {
+    let data = await paymentModel.find();
+    return res.json({
+      status: "success",
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+});
 
 module.exports = router;
