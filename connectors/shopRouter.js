@@ -34,7 +34,7 @@ router.post("/add", async (req, res) => {
 router.get("/viewall", async (req, res) => {
   try {
     let data = await shopModel.find();
-    return res.statusCode(200).json({
+    return res.status(200).json({
       status: "success",
       data: data,
     });
