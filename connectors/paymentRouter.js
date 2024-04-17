@@ -9,7 +9,7 @@ router.post("/add", async (req, res) => {
     let input = req.body;
     let newPayment = new paymentModel(input);
     await newPayment.save();
-    return res.json({
+    return res.status(200).json({
       status: "success",
       message: "successfully added new payment",
     });
@@ -27,7 +27,7 @@ router.post("/add", async (req, res) => {
 router.get("/viewall", async (req, res) => {
   try {
     let data = await paymentModel.find();
-    return res.json({
+    return res.status(200).json({
       status: "success",
       data: data,
     });
@@ -53,7 +53,7 @@ router.post("/search", async (req, res) => {
         message: "no data found",
       });
     }
-    return res.json({
+    return res.status(200).json({
       status: "success",
       data: data,
     });

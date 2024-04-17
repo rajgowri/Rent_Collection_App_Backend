@@ -17,7 +17,7 @@ router.post("/add", async (req, res) => {
     }
     let newShop = new shopModel(input);
     await newShop.save();
-    return res.statusCode(200).json({
+    return res.status(200).json({
       status: "success",
       message: "successfully created shop",
     });
@@ -58,7 +58,7 @@ router.delete("/delete", async (req, res) => {
         message: "can not find shop",
       });
     }
-    return res.json({
+    return res.status(200).json({
       status: "success",
       message: "successfully deleted shop",
     });

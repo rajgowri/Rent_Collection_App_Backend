@@ -27,7 +27,7 @@ router.post("/add", async (req, res) => {
     }
     let newVendor = new vendorModel(input);
     await newVendor.save();
-    return res.json({
+    return res.status(200).json({
       status: "success",
       message: "successfully added vendor",
     });
@@ -54,7 +54,7 @@ router.post("/search", async (req, res) => {
         message: "No data found",
       });
     }
-    return res.json({
+    return res.status(200).json({
       status: "success",
       data: data,
     });
@@ -78,10 +78,10 @@ router.post("/total",async(req,res)=>{
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
-    return res.json({
-      status:"success",
-      total:sum
-    })
+    return res.status(200).json({
+      status: "success",
+      total: sum,
+    });
   } catch (error) {
     console.error(error)
     return res.json({

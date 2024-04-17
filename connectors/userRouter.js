@@ -20,7 +20,7 @@ router.post("/signup", async (req, res) => {
       input.password = hashedPassword;
       let newUser = new userModel(input);
       await newUser.save();
-      return res.json({
+      return res.status(200).json({
         status: "success",
         message: "successfully registered user",
       });
@@ -58,7 +58,7 @@ router.post("/signin", async (req, res) => {
         message: "incorrect password",
       });
     } else {
-      return res.json({
+      return res.status(200).json({
         status: "success",
         message: "authentification successfull",
         data: data,
@@ -96,7 +96,7 @@ router.post("/changePassword", async (req, res) => {
     } else {
       data.password = input.newPassword;
       await data.save();
-      return res.json({
+      return res.status(200).json({
         status: "success",
         message: "password updated successfully",
       });
@@ -123,7 +123,7 @@ router.post("/changeEmail", async (req, res) => {
     }
     data.emailAddress = input.emailAddress;
     await data.save();
-    return res.json({
+    return res.status(200).json({
       status: "success",
       message: "successfully updated email address",
     });
@@ -147,10 +147,10 @@ router.post("/viewProfile", async (req, res) => {
         message:'no user data found'
       })
     }
-    return res.json({
-      status:"success",
-      data:data
-    })
+    return res.status(200).json({
+      status: "success",
+      data: data,
+    });
   } catch (error) {
     console.error(error);
     return res.json({
