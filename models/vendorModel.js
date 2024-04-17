@@ -38,8 +38,11 @@ const vendorModel = new mongoose.Schema({
     required: true,
   },
   shopId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "shops",
+    type: String,
+    required: true,
+  },
+  shopRent: {
+    type: Number,
     required: true,
   },
   totalAsset: {
@@ -77,6 +80,5 @@ const vendorModel = new mongoose.Schema({
     required: true,
   },
 });
-
 
 module.exports = mongoose.model("vendors", vendorModel);

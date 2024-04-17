@@ -11,7 +11,7 @@ router.post("/add", async (req, res) => {
     let input = req.body;
     let refId = input.paymentReferenceId;
     let shopId = input.shopId;
-    let existShopId = await shopModel.findById(shopId);
+    let existShopId = await shopModel.findOne({ shopId: shopId });
     if (!existShopId) {
       return res.json({
         status: "error",
@@ -19,11 +19,11 @@ router.post("/add", async (req, res) => {
       });
     }
     let existingRef = await paymentModel.findOne({ referenceId: refId });
-    if(!existingRef){
+    if (!existingRef) {
       return res.json({
-        status:"error",
-        message:"There is no payment found in this reference Id"
-      })
+        status: "error",
+        message: "There is no payment found in this reference Id",
+      });
     }
     let newVendor = new vendorModel(input);
     await newVendor.save();
@@ -36,10 +36,10 @@ router.post("/add", async (req, res) => {
     return res.json({
       status: "error",
       message: "internal sever error",
+      error: error.message,
     });
   }
 });
-
 
 //search vendor  not completed
 router.post("/search", async (req, res) => {
@@ -69,11 +69,11 @@ router.post("/search", async (req, res) => {
 });
 
 //total vendor asset find
-router.post("/total",async(req,res)=>{
+router.post("/total", async (req, res) => {
   try {
-    let data=await vendorModel.find()
-    let total
-    total=data.map(data=>data.totalAsset)
+    let data = await vendorModel.find();
+    let total;
+    total = data.map((data) => data.totalAsset);
     const sum = total.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
@@ -83,13 +83,13 @@ router.post("/total",async(req,res)=>{
       total: sum,
     });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.json({
-      status:"error",
-      message:"internal server error",
-      error:error.message
-    })
+      status: "error",
+      message: "internal server error",
+      error: error.message,
+    });
   }
-})
+});
 
 module.exports = router;
