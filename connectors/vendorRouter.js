@@ -40,7 +40,8 @@ router.post("/add", async (req, res) => {
   }
 });
 
-//search vendor
+
+//search vendor  not completed
 router.post("/search", async (req, res) => {
   try {
     let category = req.body.category;
@@ -50,7 +51,7 @@ router.post("/search", async (req, res) => {
     if (!data) {
       return res.json({
         status: "error",
-        message: "no data found",
+        message: "No data found",
       });
     }
     return res.json({
@@ -67,8 +68,28 @@ router.post("/search", async (req, res) => {
   }
 });
 
-router.get("/view", async (req, res) => {
-  let data = await vendorModel.find().populate("paymentReferenceId").exec();
-  return res.json(data);
-});
+//total vendor asset find
+router.post("/total",async(req,res)=>{
+  try {
+    let data=await vendorModel.find()
+    let total
+    total=data.map(data=>data.totalAsset)
+    const sum = total.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    return res.json({
+      status:"success",
+      total:sum
+    })
+  } catch (error) {
+    console.error(error)
+    return res.json({
+      status:"error",
+      message:"internal server error",
+      error:error.message
+    })
+  }
+})
+
 module.exports = router;

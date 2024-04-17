@@ -78,4 +78,5 @@ const vendorModel = new mongoose.Schema({
   },
 });
 
+
 module.exports = mongoose.model("vendors", vendorModel);
