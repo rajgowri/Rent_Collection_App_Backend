@@ -77,7 +77,7 @@ router.post("/signin", async (req, res) => {
 //user changePassword
 router.post("/changePassword", async (req, res) => {
   try {
-    let input = req.body;
+    let input = req.body.id;
     let inputPassword = input.oldPassword;
     let data = await userModel.findById(input.id);
     if (!data) {
@@ -159,5 +159,6 @@ router.post("/viewProfile", async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;

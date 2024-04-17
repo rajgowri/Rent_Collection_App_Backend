@@ -13,8 +13,8 @@ const paymentModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  referenceId: {
-    type: String,
+  referenceId: { 
+    type: Number,
     required: true,
   },
   paymentDate: {
