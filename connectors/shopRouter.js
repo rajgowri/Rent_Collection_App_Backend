@@ -17,7 +17,7 @@ router.post("/add", async (req, res) => {
     }
     let newShop = new shopModel(input);
     await newShop.save();
-    return res.json({
+    return res.statusCode(200).json({
       status: "success",
       message: "successfully created shop",
     });
@@ -34,7 +34,7 @@ router.post("/add", async (req, res) => {
 router.get("/viewall", async (req, res) => {
   try {
     let data = await shopModel.find();
-    return res.json({
+    return res.statusCode(200).json({
       status: "success",
       data: data,
     });

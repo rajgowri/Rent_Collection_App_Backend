@@ -38,7 +38,7 @@ const vendorModel = new mongoose.Schema({
     required: true,
   },
   shopId: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "shops",
     required: true,
   },
@@ -65,7 +65,7 @@ const vendorModel = new mongoose.Schema({
     required: true,
   },
   paymentReferenceId: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "payments",
   },

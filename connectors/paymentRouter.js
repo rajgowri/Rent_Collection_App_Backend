@@ -9,7 +9,7 @@ router.post("/add", async (req, res) => {
     let input = req.body;
     let newPayment = new paymentModel(input);
     await newPayment.save();
-    return res.json({
+    return res.statusCode(200).json({
       status: "success",
       message: "successfully added new payment",
     });
@@ -40,5 +40,6 @@ router.get("/viewall", async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;
