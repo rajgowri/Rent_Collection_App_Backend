@@ -44,20 +44,16 @@ router.post("/add", async (req, res) => {
 //search vendor  not completed
 router.post("/search", async (req, res) => {
   try {
-    let category = req.body.category;
-    let data = await vendorModel.findOne({
-      "paymentReferenceId.category": category,
-    });
-    if (!data) {
-      return res.json({
-        status: "error",
-        message: "No data found",
-      });
-    }
+    let name = req.body.firstName;
+    let shopId = req.body.shopId;
+    let shopData = await shopModel.findOne({ shopId: shopId });
+    let data = await vendorModel.findOne({ firstName: name });
     return res.status(200).json({
       status: "success",
       data: data,
+      shopData:shopData
     });
+    
   } catch (error) {
     console.error(error);
     return res.json({
@@ -92,4 +88,16 @@ router.post("/total", async (req, res) => {
   }
 });
 
+
+//view all vendors
+router.get("/viewall",async(req,res)=>{
+  try {
+    let data=await vendorModel.find()
+    return res.json({
+      data:data
+    })
+  } catch (error) {
+    console.error(error)
+  }
+})
 module.exports = router;
