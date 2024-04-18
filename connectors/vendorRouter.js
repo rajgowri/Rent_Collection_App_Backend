@@ -44,7 +44,7 @@ router.post("/add", async (req, res) => {
 //search vendor  not completed
 router.post("/search", async (req, res) => {
   try {
-    let name = req.body.firstName;
+    let name = req.body.s;
     let shopId = req.body.shopId;
     let shopData = await shopModel.findOne({ shopId: shopId });
     let data = await vendorModel.findOne({ firstName: name });
@@ -70,6 +70,30 @@ router.post("/total", async (req, res) => {
     let data = await vendorModel.find();
     let total;
     total = data.map((data) => data.totalAsset);
+    const sum = total.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    return res.status(200).json({
+      status: "success",
+      total: sum,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+});
+
+//total rent
+router.post("/totalRent", async (req, res) => {
+  try {
+    let data = await vendorModel.find();
+    let total;
+    total = data.map((data) => data.shopRent);
     const sum = total.reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
