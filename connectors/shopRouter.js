@@ -72,4 +72,22 @@ router.delete("/delete", async (req, res) => {
   }
 });
 
+//view shop numbers
+router.post("/number", async (req, res) => {
+  try {
+    let shop = await shopModel.find();
+    let totalShops = shop.length;
+    return res.json({
+      status: "success",
+      totalShops: totalShops,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server",
+    });
+  }
+});
+
 module.exports = router;
