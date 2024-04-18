@@ -156,7 +156,7 @@ router.post("/number", async (req, res) => {
     let totalShops = shop.length;
     return res.json({
       status: "success",
-      totalShops: totalShops,
+      totalVendors: totalShops,
     });
   } catch (error) {
     console.error(error);
