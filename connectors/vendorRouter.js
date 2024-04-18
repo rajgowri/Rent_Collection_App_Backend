@@ -113,6 +113,30 @@ router.post("/totalRent", async (req, res) => {
 });
 
 
+//total deposite
+router.post("/totalDeposite", async (req, res) => {
+  try {
+    let data = await vendorModel.find();
+    let total;
+    total = data.map((data) => data.depositeAmount);
+    const sum = total.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    return res.status(200).json({
+      status: "success",
+      total: sum,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.json({
+      status: "error",
+      message: "internal server error",
+      error: error.message,
+    });
+  }
+});
+
 //view all vendors
 router.get("/viewall",async(req,res)=>{
   try {
