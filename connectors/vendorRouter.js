@@ -11,18 +11,11 @@ router.post("/add", async (req, res) => {
     let input = req.body;
     let refId = input.paymentReferenceId;
     let shopId = input.shopId;
-    let existShopId = await shopModel.findOne({ shopId: shopId });
+    let existShopId = await shopModel.findById(shopId);
     if (!existShopId) {
       return res.json({
         status: "error",
         message: "shop Id Does not exists",
-      });
-    }
-    let existingRef = await paymentModel.findOne({ referenceId: refId });
-    if (!existingRef) {
-      return res.json({
-        status: "error",
-        message: "There is no payment found in this reference Id",
       });
     }
     let newVendor = new vendorModel(input);

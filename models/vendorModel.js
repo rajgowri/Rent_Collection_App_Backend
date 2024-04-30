@@ -38,7 +38,8 @@ const vendorModel = new mongoose.Schema({
     required: true,
   },
   shopId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Shop",
     required: true,
   },
   shopRent: {
