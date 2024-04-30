@@ -36,7 +36,7 @@ router.post("/add", async (req, res) => {
 //search vendor  not completed
 router.post("/search", async (req, res) => {
   try {
-    let name = req.body.s;
+    let name = req.body.firstName;
     let shopId = req.body.shopId;
     let shopData = await shopModel.findOne({ shopId: shopId });
     let data = await vendorModel.findOne({ firstName: name });
