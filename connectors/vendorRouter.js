@@ -9,9 +9,8 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     let input = req.body;
-    let refId = input.paymentReferenceId;
     let shopId = input.shopId;
-    let existShopId = await shopModel.findById(shopId);
+    let existShopId = await shopModel.findOne({ shopId: shopId });
     if (!existShopId) {
       return res.json({
         status: "error",

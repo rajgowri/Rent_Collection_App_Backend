@@ -1,5 +1,6 @@
 const express = require("express");
 const paymentModel = require("../models/paymentModel");
+const vendorModel = require("../models/vendorModel");
 
 const router = express.Router();
 
@@ -7,6 +8,14 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     let input = req.body;
+    let refId = input.referenceId;
+    let match = await vendorModel.findOne({ paymentReferenceId: refId });
+    if(!match){
+      return res.json({
+        status:"error",
+        message:"Incorrect payment reference id"
+      })
+    }
     let newPayment = new paymentModel(input);
     await newPayment.save();
     return res.status(200).json({
