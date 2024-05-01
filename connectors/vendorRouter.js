@@ -80,7 +80,7 @@ router.post("/search", async (req, res) => {
   try {
     let name = req.body.firstName;
     let shopId = req.body.shopId;
-    let shopData = await shopModel.findOne({ shopId: shopId });
+    let shopData = await vendorModel.findOne({ shopId: shopId });
     let data = await vendorModel.findOne({ firstName: name });
     return res.status(200).json({
       status: "success",
