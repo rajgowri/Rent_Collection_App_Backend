@@ -6,14 +6,7 @@ const shopSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  shopAddress: {
-    type: String,
-    required: true,
-  },
-  shopRent: {
-    type: String,
-    required: true,
-  },
+  
 });
 
 

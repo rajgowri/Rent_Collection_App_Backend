@@ -6,23 +6,13 @@ const nodemailer = require("nodemailer");
 
 const router = express.Router();
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // Use 'true' for 465 port, 'false' for other ports
-  auth: {
-    user: "gowriraj2510@gmail.com",
-    pass: "gowri2510",
-  },
-});
 
-// Verify the transporter connection
-transporter.verify((error, success) => {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Server is ready to take messages");
-  }
+const transporter = nodemailer.createTransport({
+  service: "gowriraj2510@gmail.com",
+  auth: {
+    user: "gowriraj2510@gmail.com", // Your Gmail email address
+    pass: "nvdn rebd ibmp ejif", // Your Gmail password
+  },
 });
 
 //add vendor
@@ -39,28 +29,31 @@ router.post("/add", async (req, res) => {
     }
     let newVendor = new vendorModel(input);
     await newVendor.save();
-    // Send email to the provided email address
-    // const mailOptions = {
-    //   from: "GowrisApplication@gmail.com",
-    //   to: "rajgowri090@gmail.com", // Assuming the email address is provided in the input
-    //   subject: "Vendor Added Successfully",
-    //   html: `<p>Hello,</p>
-    //          <p>A new vendor has been added to your shop.</p>
-    //          <!-- Include shop details here -->
-    //          <p>Thank you!</p>`,
-    // };
+    const mailOptions = {
+      from: "gowriraj2510@gmail.com",
+      to: input.mailAddress,
+      subject: "Vendor Added Successfully",
+      html: `<p>Hello,</p>
+             <p>A new vendor has been added to your shop.</p>
+              <p><strong>Name: ${input.firstName}</strong></p>
+              <p><strong>Shop ID: ${input.shopId}</strong></p>
+              <p><strong>Shop Rent: ${input.shopRent}</strong></p>
+              <p><strong>Deposite Amount: ${input.depositeAmount}</strong></p><br>
+             <p>Thank you!</p>`,
+    };
 
-    // // Send the email
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //   if (error) {
-    //     console.error(error);
-    //     return res.json({
-    //       status: "error",
-    //       message: "Failed to send email",
-    //       error: error.message,
-    //     });
-    //   }
-    //   console.log("Email sent: " + info.response);
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        return res.json({
+          status: "error",
+          message: "Failed to send email",
+          error: error.message,
+        });
+      }
+      console.log("Email sent: " + mailOptions.to);
+    });
     return res.status(200).json({
       status: "success",
       message: "Successfully added vendor and sent email",
