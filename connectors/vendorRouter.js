@@ -2,8 +2,28 @@ const express = require("express");
 const vendorModel = require("../models/vendorModel");
 const paymentModel = require("../models/paymentModel");
 const shopModel = require("../models/shopModel");
+const nodemailer = require("nodemailer");
 
 const router = express.Router();
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Use 'true' for 465 port, 'false' for other ports
+  auth: {
+    user: "gowriraj2510@gmail.com",
+    pass: "gowri2510",
+  },
+});
+
+// Verify the transporter connection
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Server is ready to take messages");
+  }
+});
 
 //add vendor
 router.post("/add", async (req, res) => {
@@ -19,9 +39,31 @@ router.post("/add", async (req, res) => {
     }
     let newVendor = new vendorModel(input);
     await newVendor.save();
+    // Send email to the provided email address
+    // const mailOptions = {
+    //   from: "GowrisApplication@gmail.com",
+    //   to: "rajgowri090@gmail.com", // Assuming the email address is provided in the input
+    //   subject: "Vendor Added Successfully",
+    //   html: `<p>Hello,</p>
+    //          <p>A new vendor has been added to your shop.</p>
+    //          <!-- Include shop details here -->
+    //          <p>Thank you!</p>`,
+    // };
+
+    // // Send the email
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //   if (error) {
+    //     console.error(error);
+    //     return res.json({
+    //       status: "error",
+    //       message: "Failed to send email",
+    //       error: error.message,
+    //     });
+    //   }
+    //   console.log("Email sent: " + info.response);
     return res.status(200).json({
       status: "success",
-      message: "successfully added vendor",
+      message: "Successfully added vendor and sent email",
     });
   } catch (error) {
     console.error(error);
@@ -43,9 +85,8 @@ router.post("/search", async (req, res) => {
     return res.status(200).json({
       status: "success",
       data: data,
-      shopData:shopData
+      shopData: shopData,
     });
-    
   } catch (error) {
     console.error(error);
     return res.json({
@@ -104,7 +145,6 @@ router.post("/totalRent", async (req, res) => {
   }
 });
 
-
 //total deposite
 router.post("/totalDeposite", async (req, res) => {
   try {
@@ -130,16 +170,16 @@ router.post("/totalDeposite", async (req, res) => {
 });
 
 //view all vendors
-router.get("/viewall",async(req,res)=>{
+router.get("/viewall", async (req, res) => {
   try {
-    let data=await vendorModel.find()
+    let data = await vendorModel.find();
     return res.json({
-      data:data
-    })
+      data: data,
+    });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-})
+});
 
 //view shop numbers
 router.post("/number", async (req, res) => {
@@ -158,7 +198,5 @@ router.post("/number", async (req, res) => {
     });
   }
 });
-
-
 
 module.exports = router;

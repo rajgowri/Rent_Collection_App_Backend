@@ -13,7 +13,7 @@ const vendorModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  temporaryAddress: {
+  mailAddress: {
     type: String,
     required: true,
   },
