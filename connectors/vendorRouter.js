@@ -34,11 +34,13 @@ router.post("/add", async (req, res) => {
       to: input.mailAddress,
       subject: "Vendor Added Successfully",
       html: `<p>Hello,</p>
-             <p>A new vendor has been added to your shop.</p>
+             <p>You rented the shop successfully.</p>
               <p><strong>Name: ${input.firstName}</strong></p>
               <p><strong>Shop ID: ${input.shopId}</strong></p>
               <p><strong>Shop Rent: ${input.shopRent}</strong></p>
               <p><strong>Deposite Amount: ${input.depositeAmount}</strong></p><br>
+              <p><strong>Lease Start Date: ${input.leaseStartDate}</strong></p><br>
+              <p><strong>Lease End Date: ${input.leaseEndDate}</strong></p><br>
              <p>Thank you!</p>`,
     };
 
