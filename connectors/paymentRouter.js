@@ -55,7 +55,8 @@ router.post("/search", async (req, res) => {
   try {
     let category = req.body.category;
     let method = req.body.method;
-    let data = await paymentModel.findOne({ $or: [{ category: category }, { method: method }] });
+    let referenceId = req.body.referenceId;
+    let data = await paymentModel.findOne({ $or: [{ category: category }, { method: method }, { referenceId: referenceId}] });
     return res.status(200).json({
       status: "success",
       data: data,
