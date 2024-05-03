@@ -51,25 +51,45 @@ router.get("/viewall", async (req, res) => {
 });
 
 //search payment success
+//search payment success
 router.post("/search", async (req, res) => {
   try {
-    let category = req.body.category;
-    let method = req.body.method;
-    let referenceId = req.body.referenceId;
-    let data = await paymentModel.findOne({ $or: [{ category: category }, { method: method }, { referenceId: referenceId}] });
-    return res.status(200).json({
-      status: "success",
-      data: data,
-    });
+    const { category, method, referenceId } = req.body;
+    let query = {};
+
+    if (category) {
+      query.category = category;
+    }
+    if (method) {
+      query.method = method;
+    }
+    if (referenceId) {
+      query.referenceId = referenceId;
+    }
+
+    const data = await paymentModel.findOne(query);
+
+    if (data) {
+      return res.status(200).json({
+        status: "success",
+        data: data,
+      });
+    } else {
+      return res.status(404).json({
+        status: "error",
+        message: "No matching payment found",
+      });
+    }
   } catch (error) {
     console.error(error);
-    return res.json({
+    return res.status(500).json({
       status: "error",
       message: "internal server error",
       error: error.message,
     });
   }
 });
+
 
 
 
