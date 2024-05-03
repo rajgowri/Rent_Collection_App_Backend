@@ -75,12 +75,10 @@ router.post("/search", async (req, res) => {
   try {
     let name = req.body.firstName;
     let shopId = req.body.shopId;
-    let shopData = await vendorModel.findOne({ shopId: shopId });
-    let data = await vendorModel.findOne({ firstName: name });
+    let data = await vendorModel.findOne({ $or: [{ firstName: name }, { shopId: shopId }] });
     return res.status(200).json({
       status: "success",
       data: data,
-      shopData: shopData,
     });
   } catch (error) {
     console.error(error);
