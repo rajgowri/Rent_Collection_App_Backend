@@ -56,13 +56,7 @@ router.post("/search", async (req, res) => {
   try {
     let category = req.body.category;
     let method = req.body.method;
-    let data = await paymentModel.find({ category: category, method: method });
-    if (!data) {
-      return res.json({
-        status: "error",
-        message: "no data found",
-      });
-    }
+    let data = await vendorModel.findOne({ $or: [{ category: category }, { method: method }] });
     return res.status(200).json({
       status: "success",
       data: data,
