@@ -52,11 +52,12 @@ router.get("/viewall", async (req, res) => {
 
 
 //search payment success
+//search payment success
 router.post("/search", async (req, res) => {
   try {
     let category = req.body.category;
     let method = req.body.method;
-    let data = await vendorModel.findOne({ $or: [{ category: category }, { method: method }] });
+    let data = await paymentModel.find({ $or: [{ category: category }, { method: method }] });
     return res.status(200).json({
       status: "success",
       data: data,
@@ -70,6 +71,7 @@ router.post("/search", async (req, res) => {
     });
   }
 });
+
 
 
 module.exports = router;
