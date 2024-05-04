@@ -77,17 +77,16 @@ router.post("/signin", async (req, res) => {
 //user changePassword
 router.post("/changePassword", async (req, res) => {
   try {
-    let input = req.body.id;
-    let inputPassword = input.oldPassword;
-    let data = await userModel.findById(input.id);
+    const { id, oldPassword, newPassword } = req.body;
+    const data = await userModel.findById(id);
     if (!data) {
       return res.json({
         status: "error",
         message: "no user found",
       });
     }
-    let dbPassword = data.password;
-    let match = await bcrypt.compare(inputPassword, dbPassword);
+    const dbPassword = data.password;
+    const match = await bcrypt.compare(oldPassword, dbPassword);
     if (!match) {
       return res.json({
         status: "error",
@@ -102,10 +101,10 @@ router.post("/changePassword", async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error);
-    return res.json({
+    console.error("Change password error:", error);
+    return res.status(500).json({
       status: "error",
-      message: "internal server error",
+      message: "Internal server error",
     });
   }
 });
