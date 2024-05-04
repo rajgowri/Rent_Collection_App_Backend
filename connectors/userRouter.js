@@ -77,8 +77,8 @@ router.post("/signin", async (req, res) => {
 //user changePassword
 router.post("/changePassword", async (req, res) => {
   try {
-    const { id, oldPassword, newPassword } = req.body;
-    const data = await userModel.findById(id);
+    const { id, oldPassword, newPassword } = req.body; 
+    const data = await userModel.findById(id); 
     if (!data) {
       return res.json({
         status: "error",
@@ -86,14 +86,14 @@ router.post("/changePassword", async (req, res) => {
       });
     }
     const dbPassword = data.password;
-    const match = await bcrypt.compare(oldPassword, dbPassword);
+    const match = await bcrypt.compare(oldPassword, dbPassword); 
     if (!match) {
       return res.json({
         status: "error",
         message: "incorrect password",
       });
     } else {
-      data.password = input.newPassword;
+      data.password = newPassword; 
       await data.save();
       return res.status(200).json({
         status: "success",
@@ -108,6 +108,7 @@ router.post("/changePassword", async (req, res) => {
     });
   }
 });
+
 
 //change username and email id
 router.post("/changeEmail", async (req, res) => {
