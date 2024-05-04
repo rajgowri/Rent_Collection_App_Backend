@@ -110,45 +110,6 @@ router.post("/changePassword", async (req, res) => {
   }
 });
 
-
-//change username 
-router.post("/changeusername", async (req, res) => {
-  try {
-      const { userId, firstName } = req.body; // Modified to receive userId instead of email
-
-      // Find the user by userId
-      const user = await userModel.findOne({ _id: userId }); // Assuming userId is stored in the '_id' field
-      if (!user) {
-          return res.json({
-              status: "error",
-              message: "User not found",
-          });
-      }
-
-      // Update the username
-      user.name = firstName;
-
-      // Save the updated user
-      await user.save();
-
-      res.json({
-          status: "success",
-          message: "Username updated successfully",
-          user: {
-              id: user._id,
-              name: user.name,
-              email: user.email,
-          },
-      });
-  } catch (error) {
-      console.error("Error changing username:", error);
-      res.status(500).json({
-          status: "error",
-          message: "Internal server error",
-      });
-  }
-});
-
 //view user details
 router.post("/viewProfile", async (req, res) => {
   try {
