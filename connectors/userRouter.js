@@ -114,7 +114,7 @@ router.post("/changePassword", async (req, res) => {
 //change username 
 router.post("/changeusername", async (req, res) => {
   try {
-      const { userId, newUsername } = req.body; // Modified to receive userId instead of email
+      const { userId, firstName } = req.body; // Modified to receive userId instead of email
 
       // Find the user by userId
       const user = await userModel.findOne({ _id: userId }); // Assuming userId is stored in the '_id' field
@@ -126,7 +126,7 @@ router.post("/changeusername", async (req, res) => {
       }
 
       // Update the username
-      user.name = newUsername;
+      user.name = firstName;
 
       // Save the updated user
       await user.save();
