@@ -93,7 +93,8 @@ router.post("/changePassword", async (req, res) => {
         message: "incorrect password",
       });
     } else {
-      data.password = newPassword; 
+      const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 is the saltRounds
+      data.password = hashedPassword; 
       await data.save();
       return res.status(200).json({
         status: "success",
