@@ -114,10 +114,10 @@ router.post("/changePassword", async (req, res) => {
 //change username 
 router.post("/changeusername", async (req, res) => {
   try {
-      const { email, name: newUsername } = req.body;
+      const { userId, newUsername } = req.body; // Modified to receive userId instead of email
 
-      // Find the user by email
-      const user = await usermodel.findOne({ email: email });
+      // Find the user by userId
+      const user = await userModel.findOne({ _id: userId }); // Assuming userId is stored in the '_id' field
       if (!user) {
           return res.json({
               status: "error",
@@ -148,7 +148,6 @@ router.post("/changeusername", async (req, res) => {
       });
   }
 });
-
 
 //view user details
 router.post("/viewProfile", async (req, res) => {
