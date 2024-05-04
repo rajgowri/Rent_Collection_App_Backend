@@ -111,31 +111,44 @@ router.post("/changePassword", async (req, res) => {
 });
 
 
-//change username and email id
-router.post("/changeEmail", async (req, res) => {
+//change username 
+router.post("/changeusername", async (req, res) => {
   try {
-    let input = req.body;
-    let data = await userModel.findById(input.id);
-    if (!data) {
-      return res.json({
-        status: "error",
-        message: "no user found",
+      const { email, name: newUsername } = req.body;
+
+      // Find the user by email
+      const user = await usermodel.findOne({ email: email });
+      if (!user) {
+          return res.json({
+              status: "error",
+              message: "User not found",
+          });
+      }
+
+      // Update the username
+      user.name = newUsername;
+
+      // Save the updated user
+      await user.save();
+
+      res.json({
+          status: "success",
+          message: "Username updated successfully",
+          user: {
+              id: user._id,
+              name: user.name,
+              email: user.email,
+          },
       });
-    }
-    data.emailAddress = input.emailAddress;
-    await data.save();
-    return res.status(200).json({
-      status: "success",
-      message: "successfully updated email address",
-    });
   } catch (error) {
-    console.error(error);
-    return res.json({
-      status: "error",
-      message: "internal sever error",
-    });
+      console.error("Error changing username:", error);
+      res.status(500).json({
+          status: "error",
+          message: "Internal server error",
+      });
   }
 });
+
 
 //view user details
 router.post("/viewProfile", async (req, res) => {
