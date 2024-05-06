@@ -75,18 +75,7 @@ router.post("/search", async (req, res) => {
   try {
     let name = req.body.firstName;
     let shopId = req.body.shopId;
-    let query = {};
-    
-    // Check if name or shopId is provided and construct the query accordingly
-    if (name) {
-      query.firstName = name;
-    }
-    if (shopId) {
-      query.shopId = shopId;
-    }
-    
-    let data = await vendorModel.find(query);
-
+    let data = await vendorModel.findOne({ $or: [{ firstName: name }, { shopId: shopId }] });
     return res.status(200).json({
       status: "success",
       data: data,
@@ -100,7 +89,6 @@ router.post("/search", async (req, res) => {
     });
   }
 });
-
 
 //total vendor asset find
 router.post("/total", async (req, res) => {
