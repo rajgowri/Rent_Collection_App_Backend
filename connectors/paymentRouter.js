@@ -67,7 +67,7 @@ router.post("/search", async (req, res) => {
       query.referenceId = referenceId;
     }
 
-    const data = await paymentModel.findOne(query);
+    const data = await paymentModel.find(query);
 
     if (data) {
       return res.status(200).json({
